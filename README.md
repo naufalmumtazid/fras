@@ -5,7 +5,7 @@
 ## Problem
 It's hassle to check financial statement one by one. And also i hvae to count manually about the financial metris such as RoE (Returnn on Equity), Net Income, Total Revenuew, and much more.
 
-## SOlution
+## Solution
 So i build a financial statement analyzer to solve the problem. The system works by scraping the finanial report XBRL (eXtensible Business Reporting Language) from IDX Website using Golang (I know it's illegal so this is just educational purpose). Then the system will process to generate goroutine as many as the quarter needs to received. To solve race ondition, mutex is my solution. WaitGroup waits the system to receive all the goroutine information before sending that to the client.
 
 ## FAQ
