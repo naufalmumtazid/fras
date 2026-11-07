@@ -16,6 +16,7 @@ type FinancialMetrics struct {
 	TATO float64 `json:"tato"`
 	PER  float64 `json:"per"`
 	PBV  float64 `json:"pbv"`
+	MOS  float64 `json:"mos_percent"`
 }
 
 type StatSummary struct {

@@ -1,0 +1,53 @@
+definitions:
+  infrastructure_handler.EmitenRequest:
+    properties:
+      emiten_code:
+        type: string
+      quarter_count:
+        type: integer
+      share_price:
+        type: number
+      shares_outstanding:
+        type: number
+      start_quarter:
+        type: integer
+      start_year:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/analyze-stock:
+    post:
+      consumes:
+      - application/json
+      description: Fetches iXBRL financial report data from IDX, calculates financial
+        ratios (NPM, ROA, ROE, DER, PER, PBV), and computes global statistics (Median
+        & Mean).
+      parameters:
+      - description: Payload containing emiten code and current share price
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/infrastructure_handler.EmitenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully processed financial analysis
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid request body
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Analyze IDX Emiten Financial Report
+      tags:
+      - Analytics
+swagger: "2.0"

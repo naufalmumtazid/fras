@@ -1,6 +1,6 @@
 package scraping
 
-import "backend/domains/finance"
+import "fras/domains/finance"
 
 type ReportTarget struct {
 	URL     string

@@ -1,11 +1,11 @@
-package infrastructure
+package handler
 
 import (
 	"encoding/json"
 	"net/http"
-	"time"
 
-	"backend/domains/analytics"
+	"fras/domains/analytics"
+	"fras/infrastructure"
 )
 
 type EmitenRequest struct {
@@ -17,29 +17,17 @@ type EmitenRequest struct {
 	SharesOutstanding *float64 `json:"shares_outstanding,omitempty"`
 }
 
-func getDefaultStartPeriod() (int, int) {
-	now := time.Now()
-	year := now.Year()
-	month := now.Month()
-
-	var quarter int
-	switch {
-	case month >= time.January && month <= time.March:
-		quarter = 3
-		year--
-	case month >= time.April && month <= time.June:
-		quarter = 4
-		year--
-	case month >= time.July && month <= time.September:
-		quarter = 1
-	case month >= time.October && month <= time.November:
-		quarter = 3
-	default:
-		quarter = 3
-	}
-	return year, quarter
-}
-
+// HandleAnalytics processes stock analysis for a given IDX emiten.
+// @Summary Analyze IDX Emiten Financial Report
+// @Description Fetches iXBRL financial report data from IDX, calculates financial ratios (NPM, ROA, ROE, DER, PER, PBV), and computes global statistics (Median & Mean).
+// @Tags Analytics
+// @Accept json
+// @Produce json
+// @Param request body EmitenRequest true "Payload containing emiten code and current share price"
+// @Success 200 {object} map[string]interface{} "Successfully processed financial analysis"
+// @Failure 400 {string} string "Invalid request body"
+// @Failure 500 {string} string "Internal server error"
+// @Router /api/v1/analyze-stock [post]
 func HandleAnalytics(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -52,7 +40,7 @@ func HandleAnalytics(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	defaultYear, defaultQuarter := getDefaultStartPeriod()
+	defaultYear, defaultQuarter := infrastructure.GetDefaultStartPeriod()
 	startYear := defaultYear
 	if req.StartYear != nil {
 		startYear = *req.StartYear

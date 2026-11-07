@@ -1,0 +1,80 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/api/v1/analyze-stock": {
+            "post": {
+                "description": "Fetches iXBRL financial report data from IDX, calculates financial ratios (NPM, ROA, ROE, DER, PER, PBV), and computes global statistics (Median \u0026 Mean).",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Analytics"
+                ],
+                "summary": "Analyze IDX Emiten Financial Report",
+                "parameters": [
+                    {
+                        "description": "Payload containing emiten code and current share price",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/infrastructure_handler.EmitenRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully processed financial analysis",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "infrastructure_handler.EmitenRequest": {
+            "type": "object",
+            "properties": {
+                "emiten_code": {
+                    "type": "string"
+                },
+                "quarter_count": {
+                    "type": "integer"
+                },
+                "share_price": {
+                    "type": "number"
+                },
+                "shares_outstanding": {
+                    "type": "number"
+                },
+                "start_quarter": {
+                    "type": "integer"
+                },
+                "start_year": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

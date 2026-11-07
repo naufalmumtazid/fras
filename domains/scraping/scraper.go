@@ -12,7 +12,7 @@ import (
 	"sync"
 	"time"
 
-	"backend/domains/finance"
+	"fras/domains/finance"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/go-rod/rod"

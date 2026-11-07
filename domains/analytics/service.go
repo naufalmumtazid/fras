@@ -1,8 +1,8 @@
 package analytics
 
 import (
-	"backend/domains/finance"
-	"backend/domains/scraping"
+	"fras/domains/finance"
+	"fras/domains/scraping"
 )
 
 type AnalyticsService struct{}
@@ -17,7 +17,7 @@ func (s *AnalyticsService) ProcessEmitenAnalytics(code string, startYear int, st
 		return GlobalSummary{}, nil, err
 	}
 
-	var gpmList, npmList, opmList, roaList, roeList, derList, tatoList, perList, pbvList []float64
+	var gpmList, npmList, opmList, roaList, roeList, derList, tatoList, perList, pbvList, mosList []float64
 	for _, res := range results {
 		if res.Metrics != nil {
 			gpmList = append(gpmList, res.Metrics.GPM)
@@ -29,6 +29,7 @@ func (s *AnalyticsService) ProcessEmitenAnalytics(code string, startYear int, st
 			tatoList = append(tatoList, res.Metrics.TATO)
 			perList = append(perList, res.Metrics.PER)
 			pbvList = append(pbvList, res.Metrics.PBV)
+			mosList = append(mosList, res.Metrics.MOS)
 		}
 	}
 
@@ -42,5 +43,6 @@ func (s *AnalyticsService) ProcessEmitenAnalytics(code string, startYear int, st
 		TATO: finance.ComputeStat(tatoList),
 		PER:  finance.ComputeStat(perList),
 		PBV:  finance.ComputeStat(pbvList),
+		MOS:  finance.ComputeStat(mosList),
 	}, results, nil
 }

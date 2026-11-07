@@ -1,6 +1,6 @@
 package analytics
 
-import "backend/domains/finance"
+import "fras/domains/finance"
 
 type SummaryMetric = finance.StatSummary
 
@@ -14,4 +14,5 @@ type GlobalSummary struct {
 	TATO SummaryMetric `json:"tato"`
 	PER  SummaryMetric `json:"per"`
 	PBV  SummaryMetric `json:"pbv"`
+	MOS  SummaryMetric `json:"mos_percent"`
 }
